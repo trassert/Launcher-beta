@@ -136,19 +136,14 @@ def main(page):
                 f'?q=mods&version={mods_newest_version}', timeout=5)
             text.value = unzipping
             page.update()
-            try:
-                with open(
-                    path.join(minecraft_directory, 'archive.zip'), mode="wb"
-                ) as file:
-                    file.write(response.content)
-            except:
-                'Если директории майнкрафта ещё нет'
-                mkdir(minecraft_directory)
+            
+            'Если директории майнкрафта ещё нет'
+            if not path.exists(minecraft_directory):
                 mkdir(path.join(minecraft_directory, 'mods'))
-                with open(
-                    path.join(minecraft_directory, 'archive.zip'), mode="wb"
-                ) as file:
-                    file.write(response.content)
+            with open(
+                path.join(minecraft_directory, 'archive.zip'), mode="wb"
+            ) as file:
+                file.write(response.content)
             'Распаковка архива'
             zipfile.ZipFile(
                 path.join(minecraft_directory, 'archive.zip')
