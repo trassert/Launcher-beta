@@ -258,18 +258,22 @@ def launcher(page):
         'Преопределение стандартных опций'
         try:
             with open(path.join(minecraft_directory, 'options.txt'), 'r') as r:
-                options_lines = r.readlines()
-            with open(path.join(minecraft_directory, 'options.txt'), 'w') as w:
-                n = 0
-                server_count = False
-                for line in options_lines:
-                    if 'lastServer' in line:
-                        options_lines[n] = 'lastServer:trassert.ddns.net\n'
-                        server_count = True
-                    n += 1
-                if server_count is False:
-                    options_lines.append('\nlastServer:trassert.ddns.net\n')
-                w.write(''.join(options_lines))
+                minecraft_options = r.read()
+                if 'lastServer:trassert.ddns.net' not in minecraft_options:
+                    minecraft_options = minecraft_options.split('\n')
+                    with open(
+                        path.join(minecraft_directory, 'options.txt'), 'w'
+                    ) as w:
+                        n = 0
+                        server_count = False
+                        for line in minecraft_options:
+                            if 'lastServer' in line:
+                                minecraft_options[n] = 'lastServer:trassert.ddns.net\n'
+                                server_count = True
+                            n += 1
+                        if server_count is False:
+                            minecraft_options.append('\nlastServer:trassert.ddns.net\n')
+                w.write(''.join(minecraft_options))
         except:
             with open(path.join(minecraft_directory, 'options.txt'), 'w') as w:
                 w.write(
