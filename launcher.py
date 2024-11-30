@@ -197,11 +197,15 @@ def launcher(page):
         hint_text=nick_hint,
         border_color='white',
         cursor_color='white',
-        hint_style=ft.TextStyle(color=ft.colors.WHITE38),
+        hint_style=ft.TextStyle(
+            color=ft.colors.WHITE38
+        ),
         label_style=ft.TextStyle(
-            color=ft.colors.WHITE38, weight=ft.FontWeight.BOLD),
-        text_style=ft.TextStyle(color=ft.colors.WHITE54,
-                                weight=ft.FontWeight.BOLD),
+            color=ft.colors.WHITE38, weight=ft.FontWeight.BOLD
+        ),
+        text_style=ft.TextStyle(
+            color=ft.colors.WHITE54, weight=ft.FontWeight.BOLD
+        ),
         value=nick if nick is not None else ''
     )
     column = ft.Column(
@@ -442,7 +446,9 @@ def launcher(page):
                         memory_slider
                     ]
                 ),
-                ft.ElevatedButton(text=settings_off, on_click=settings_click_off)
+                ft.ElevatedButton(
+                    text=settings_off, on_click=settings_click_off
+                )
             ],
             alignment=ft.MainAxisAlignment.CENTER,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,

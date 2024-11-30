@@ -21,8 +21,9 @@ unzipping = 'Распаковка'
 update_success = 'Обновление прошло успешно'
 
 
-minecraft_directory = get_minecraft_directory(
-    ).replace('minecraft', 'trassert')
+minecraft_directory = get_minecraft_directory().replace(
+    'minecraft', 'trassert'
+)
 
 t = 2
 current_running = []
@@ -88,7 +89,7 @@ def main(page):
             '?q=prog'
             f'&version={launcher_version}',
             timeout=5
-            ).text
+        ).text
         current_need_update = 0
         while 'True' not in launcher_newest_version:
             text.value = prog_upd
@@ -96,7 +97,8 @@ def main(page):
             current_need_update = int(launcher_newest_version)
             response = requests.get(
                 f'http://{server}/download'
-                f'?q=prog&version={launcher_newest_version}', timeout=5)
+                f'?q=prog&version={launcher_newest_version}', timeout=5
+            )
             text.value = unzipping
             page.update()
             with open("archive.zip", mode="wb") as file:
@@ -104,17 +106,19 @@ def main(page):
             zipfile.ZipFile("archive.zip", 'r').extractall(getcwd())
             remove('archive.zip')
             if path.isfile('delfile.txt'):
+                'Если нужно удалять какие либо файлы'
                 with open('delfile.txt', 'r') as f:
-                    for x in f.readlines():
+                    for files in f.readlines():
                         try:
-                            remove(x.replace('\n', ''))
-                        except:
+                            remove(files.replace('\n', ''))
+                        except FileNotFoundError:
                             pass
                 remove('delfile.txt')
             launcher_newest_version = requests.get(
                 f'http://{server}/version'
                 f'?q=prog&version={launcher_newest_version}',
-                timeout=5).text
+                timeout=5
+            ).text
         'Если лаунчер обновился'
         if current_need_update != 0:
             db.settings('launcher_version', current_need_update)
@@ -133,10 +137,11 @@ def main(page):
             current_need_update = int(mods_newest_version)
             response = requests.get(
                 f'http://{server}/download'
-                f'?q=mods&version={mods_newest_version}', timeout=5)
+                f'?q=mods&version={mods_newest_version}', timeout=5
+            )
             text.value = unzipping
             page.update()
-            
+
             'Если директории майнкрафта ещё нет'
             if not path.exists(minecraft_directory):
                 mkdir(path.join(minecraft_directory, 'mods'))
@@ -144,12 +149,14 @@ def main(page):
                 path.join(minecraft_directory, 'archive.zip'), mode="wb"
             ) as file:
                 file.write(response.content)
+
             'Распаковка архива'
             zipfile.ZipFile(
                 path.join(minecraft_directory, 'archive.zip')
-                ).extractall(
-                    path.join(minecraft_directory, 'mods')
-                    )
+            ).extractall(
+                path.join(minecraft_directory, 'mods')
+            )
+
             'Удаление архива'
             remove(path.join(minecraft_directory, 'archive.zip'))
             if path.isfile(
@@ -173,7 +180,7 @@ def main(page):
                                     unnecessary_mods.replace('\n', '')
                                     )
                                 )
-                        except:
+                        except FileNotFoundError:
                             pass
                 remove(
                     path.join(
@@ -186,7 +193,7 @@ def main(page):
                 f'http://{server}/version'
                 f'?q=mods&version={mods_newest_version}',
                 timeout=5
-                ).text
+            ).text
         'Если моды обновились'
         if current_need_update != 0:
             db.settings('mods_version', current_need_update)
