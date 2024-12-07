@@ -45,6 +45,7 @@ new_png_text = 'Загрузка новых картинок   '
 
 tg_tag = '@trassert_server, @trassert_ch'
 tiktok_tag = '@trassert_server, @trassert_main'
+github_tag = '@trassert'
 brawl_tag = '2Y28YY0U9'
 
 
@@ -149,6 +150,13 @@ def launcher(page):
             ),
             ft.Row(
                 [
+                    ft.Image(src="images\\github.png", width=24, height=24),
+                    ft.Text(github_tag, color=ft.colors.WHITE,
+                            weight=ft.FontWeight.BOLD, selectable=True)
+                ]
+            ),
+            ft.Row(
+                [
                     ft.Image(src="images\\brawl.png", width=24, height=24),
                     ft.Text(brawl_tag, color=ft.colors.WHITE,
                             weight=ft.FontWeight.BOLD, selectable=True)
@@ -218,7 +226,12 @@ def launcher(page):
         'Если нажата кнопка Играть'
 
         'Если игра уже запущена'
+        play.disabled = True
+        page.update()
+
         if db.settings('game_work') is True:
+            play.disabled = False
+            page.update()
             return page.open(
                 ft.AlertDialog(
                     title=ft.Text(
@@ -287,6 +300,8 @@ def launcher(page):
 
         'С этого момента игре нельзя запускаться ещё раз'
         db.settings('game_work', True)
+        play.disabled = False
+        page.update()
 
         'Если нет фабрик'
         try:
